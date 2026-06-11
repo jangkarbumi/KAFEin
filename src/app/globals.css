@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+/* ─── KAFEin Design System ─────────────────────────────────────────────────── */
+
+:root {
+  /* Coffee-Inspired Color Palette */
+  --kafein-dark: #0c0a09;
+  --kafein-dark-card: #1c1917;
+  --kafein-dark-elevated: #292524;
+  --kafein-border: #44403c;
+
+  /* Primary: Warm Amber/Coffee */
+  --kafein-primary: #f59e0b;
+  --kafein-primary-light: #fbbf24;
+  --kafein-primary-dark: #d97706;
+  --kafein-primary-glow: rgba(245, 158, 11, 0.15);
+
+  /* Accent: Rich Coffee Brown */
+  --kafein-accent: #92400e;
+  --kafein-accent-light: #b45309;
+
+  /* Text */
+  --kafein-text-primary: #fafaf9;
+  --kafein-text-secondary: #a8a29e;
+  --kafein-text-muted: #78716c;
+
+  /* Gradients */
+  --kafein-gradient-hero: linear-gradient(
+    135deg,
+    #0c0a09 0%,
+    #1c1917 40%,
+    #292524 100%
+  );
+  --kafein-gradient-accent: linear-gradient(
+    135deg,
+    #f59e0b 0%,
+    #d97706 50%,
+    #92400e 100%
+  );
+  --kafein-gradient-glow: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(245, 158, 11, 0.12) 0%,
+    transparent 60%
+  );
+}
+
+@theme inline {
+  --color-kafein-dark: var(--kafein-dark);
+  --color-kafein-dark-card: var(--kafein-dark-card);
+  --color-kafein-dark-elevated: var(--kafein-dark-elevated);
+  --color-kafein-border: var(--kafein-border);
+  --color-kafein-primary: var(--kafein-primary);
+  --color-kafein-primary-light: var(--kafein-primary-light);
+  --color-kafein-primary-dark: var(--kafein-primary-dark);
+  --color-kafein-text-primary: var(--kafein-text-primary);
+  --color-kafein-text-secondary: var(--kafein-text-secondary);
+  --color-kafein-text-muted: var(--kafein-text-muted);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--kafein-dark);
+  color: var(--kafein-text-primary);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+/* ─── Animations ───────────────────────────────────────────────────────────── */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes steam {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scaleX(1);
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-20px) scaleX(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) scaleX(0.8);
+  }
+}
+
+/* ─── Utility Classes ──────────────────────────────────────────────────────── */
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
+}
+
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+.animate-steam {
+  animation: steam 2.5s ease-out infinite;
+}
+
+/* ─── Glass Morphism ───────────────────────────────────────────────────────── */
+
+.glass-card {
+  background: rgba(28, 25, 23, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(68, 64, 60, 0.4);
+}
+
+.glass-input {
+  background: rgba(28, 25, 23, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(68, 64, 60, 0.5);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-input:focus-within {
+  border-color: var(--kafein-primary);
+  box-shadow: 0 0 0 3px var(--kafein-primary-glow),
+    0 0 40px var(--kafein-primary-glow);
+}
+
+/* ─── Hero Background ─────────────────────────────────────────────────────── */
+
+.hero-bg {
+  background: var(--kafein-gradient-hero);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140%;
+  height: 60%;
+  background: var(--kafein-gradient-glow);
+  pointer-events: none;
+}
+
+/* ─── Scrollbar ────────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--kafein-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--kafein-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--kafein-text-muted);
+}
