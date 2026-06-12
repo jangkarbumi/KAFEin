@@ -1,13 +1,13 @@
 import HeroSection from "@/components/home/HeroSection";
-import FeaturesSection from "@/components/home/FeaturesSection";
-import HowItWorks from "@/components/home/HowItWorks";
+import CategoryPills from "@/components/home/CategoryPills";
+import SmartPicks from "@/components/home/SmartPicks";
 
 export default function Home() {
   return (
     <>
       <HeroSection />
-      <FeaturesSection />
-      <HowItWorks />
+      <CategoryPills />
+      <SmartPicks />
     </>
   );
 }

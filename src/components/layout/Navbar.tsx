@@ -2,33 +2,38 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User, LogIn } from "lucide-react";
-import { CoffeeLogo } from "@/components/ui/SteamEffect";
+import { Bell, Search } from "lucide-react";
+import Image from "next/image";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const isSearch = pathname === "/search";
 
   const navLinks = [
-    { href: "/", label: "Beranda" },
-    { href: "/search", label: "Cari Kafe" },
+    { href: "/search", label: "Find Cafe" },
+    { href: "/saved", label: "Saved" },
+    { href: "/history", label: "History" },
   ];
 
   return (
-    <nav
-      id="main-navbar"
-      className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-kafein-border/30"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <nav id="main-navbar" className="sticky top-0 z-50 bg-kf-bg/90 backdrop-blur-md border-b border-kf-border-light">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5">
-          <CoffeeLogo size="md" />
-          <span className="text-xl font-bold tracking-tight">
-            KAFE<span className="text-kafein-primary">in</span>
-          </span>
-          <span className="hidden sm:inline-block ml-1 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest rounded-full bg-kafein-primary/10 text-kafein-primary border border-kafein-primary/20">
-            AI Beta
+        <Link href="/" className="flex items-center gap-1 shrink-0">
+          <span className="text-xl font-bold text-kf-brown tracking-tight">
+            KAFE<span className="text-kf-brown">in</span>
           </span>
         </Link>
+
+        {/* Inline Search (on search page) */}
+        {isSearch && (
+          <div className="hidden md:flex flex-1 max-w-md mx-4">
+            <div className="flex items-center gap-2 w-full px-4 py-2 rounded-full bg-kf-surface border border-kf-border">
+              <Search className="w-4 h-4 text-kf-text-muted" />
+              <span className="text-sm text-kf-text-muted">Cafe sepi dekat Undip</span>
+            </div>
+          </div>
+        )}
 
         {/* Center Nav Links */}
         <div className="hidden md:flex items-center gap-6">
@@ -38,8 +43,8 @@ export default function Navbar() {
               href={link.href}
               className={`text-sm transition-colors ${
                 pathname === link.href
-                  ? "text-kafein-primary font-medium"
-                  : "text-kafein-text-secondary hover:text-kafein-text-primary"
+                  ? "text-kf-text font-semibold border-b-2 border-kf-brown pb-0.5"
+                  : "text-kf-text-secondary hover:text-kf-text"
               }`}
             >
               {link.label}
@@ -47,27 +52,24 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Right Side Actions */}
-        <div className="flex items-center gap-2">
-          <Link
-            href="/profile"
-            id="nav-profile"
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm transition-all duration-200 ${
-              pathname === "/profile"
-                ? "bg-kafein-primary/10 text-kafein-primary border border-kafein-primary/20"
-                : "text-kafein-text-secondary hover:text-kafein-text-primary hover:bg-kafein-dark-elevated"
-            }`}
-          >
-            <User className="w-4 h-4" />
-            <span className="hidden sm:inline">Profil</span>
-          </Link>
+        {/* Right Side */}
+        <div className="flex items-center gap-3">
+          <button className="p-2 rounded-full hover:bg-kf-bg-alt transition-colors">
+            <Bell className="w-5 h-5 text-kf-text-secondary" />
+          </button>
+
           <Link
             href="/auth"
             id="nav-login"
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-sm font-medium bg-gradient-to-r from-kafein-primary to-kafein-primary-dark text-kafein-dark hover:shadow-[0_0_20px_rgba(245,158,11,0.2)] transition-all duration-300"
+            className="btn-primary !py-2 !px-5 !rounded-full !text-sm"
           >
-            <LogIn className="w-4 h-4" />
-            <span className="hidden sm:inline">Masuk</span>
+            Login
+          </Link>
+
+          <Link href="/profile" className="shrink-0">
+            <div className="w-9 h-9 rounded-full bg-kf-peach/50 border-2 border-kf-border flex items-center justify-center overflow-hidden">
+              <span className="text-sm font-semibold text-kf-brown">A</span>
+            </div>
           </Link>
         </div>
       </div>

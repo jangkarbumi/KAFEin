@@ -1,12 +1,7 @@
 import Link from "next/link";
-import { Wifi, Plug, MapPin, Volume2 } from "lucide-react";
-import {
-  type MockSearchResult,
-  formatRupiah,
-  getVibeLabel,
-  getWifiLabel,
-  getPlugsLabel,
-} from "@/lib/mock-data";
+import Image from "next/image";
+import { Wifi, Plug, Volume2, Star, MapPin } from "lucide-react";
+import { type MockSearchResult, getVibeLabel, getVibeDot, formatBudget } from "@/lib/mock-data";
 
 interface CafeCardProps {
   cafe: MockSearchResult;
@@ -14,71 +9,78 @@ interface CafeCardProps {
 }
 
 export default function CafeCard({ cafe, rank }: CafeCardProps) {
+  const isTopMatch = rank === 1;
+
   return (
     <Link
       href={`/cafe/${cafe._id}`}
       id={`cafe-card-${cafe._id}`}
-      className="group glass-card rounded-2xl overflow-hidden hover:border-kafein-primary/30 transition-all duration-300 flex flex-col"
+      className="card overflow-hidden group"
     >
-      {/* Image / Placeholder */}
-      <div className="relative h-40 bg-gradient-to-br from-kafein-dark-elevated to-kafein-dark-card flex items-center justify-center overflow-hidden">
-        <div className="text-4xl opacity-20">☕</div>
-        {/* Score Badge */}
-        <div className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-kafein-primary/90 text-kafein-dark text-xs font-bold">
-          {cafe.match_score}% cocok
+      <div className="flex flex-col sm:flex-row">
+        {/* Image */}
+        <div className="relative w-full sm:w-72 h-48 sm:h-auto sm:min-h-[200px] shrink-0">
+          <Image
+            src={cafe.image}
+            alt={cafe.name}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+          />
         </div>
-        {/* Rank Badge */}
-        {rank && (
-          <div className="absolute top-3 left-3 w-8 h-8 rounded-lg bg-kafein-dark/70 backdrop-blur-sm flex items-center justify-center text-sm font-bold text-kafein-primary border border-kafein-primary/20">
-            #{rank}
+
+        {/* Content */}
+        <div className="p-5 flex-1 flex flex-col">
+          {/* Header */}
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h3 className="text-lg font-bold text-kf-text group-hover:text-kf-brown transition-colors">
+                {cafe.name}
+              </h3>
+              <div className="flex items-center gap-2 mt-1 text-sm text-kf-text-secondary">
+                <MapPin className="w-3.5 h-3.5" />
+                {cafe.distance_km} km dari Undip • {formatBudget(cafe.basic_spent)}
+              </div>
+            </div>
+
+            {/* Top Match / Rating */}
+            <div className="flex items-center gap-2 shrink-0">
+              {isTopMatch && (
+                <span className="badge badge-outline bg-white font-semibold text-kf-brown text-xs border-kf-brown/30">
+                  ✦ Top AI Match
+                </span>
+              )}
+              <span className="flex items-center gap-1 text-sm font-semibold text-kf-text">
+                <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                {cafe.rating}
+              </span>
+            </div>
           </div>
-        )}
-      </div>
 
-      {/* Content */}
-      <div className="p-5 flex-1 flex flex-col">
-        {/* Title & Location */}
-        <h3 className="font-semibold text-kafein-text-primary group-hover:text-kafein-primary-light transition-colors mb-1">
-          {cafe.name}
-        </h3>
-        <div className="flex items-center gap-1 text-xs text-kafein-text-muted mb-3">
-          <MapPin className="w-3 h-3" />
-          {cafe.location_area}
-        </div>
-
-        {/* Amenity Badges */}
-        <div className="flex flex-wrap gap-1.5 mb-3">
-          {cafe.wifi.available && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <Wifi className="w-2.5 h-2.5" />
-              {getWifiLabel(cafe.wifi.speed_rating)}
+          {/* Tags */}
+          <div className="flex flex-wrap gap-1.5 mt-3">
+            <span className={`badge ${cafe.vibe === "quiet" ? "badge-green" : cafe.vibe === "moderate" ? "badge-yellow" : "badge-red"} text-xs`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${getVibeDot(cafe.vibe)}`} />
+              {getVibeLabel(cafe.vibe)}
             </span>
-          )}
-          {cafe.plugs.available && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
-              <Plug className="w-2.5 h-2.5" />
-              {getPlugsLabel(cafe.plugs.quantity)}
-            </span>
-          )}
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
-            <Volume2 className="w-2.5 h-2.5" />
-            {getVibeLabel(cafe.vibe)}
-          </span>
-        </div>
+            {cafe.tags.slice(0, 2).map((tag) => (
+              <span key={tag} className="badge badge-outline text-xs">
+                {tag}
+              </span>
+            ))}
+          </div>
 
-        {/* AI Reasoning */}
-        <p className="text-xs text-kafein-text-secondary leading-relaxed mb-4 flex-1 line-clamp-2">
-          {cafe.ai_reasoning}
-        </p>
+          {/* AI Note */}
+          <div className="ai-note mt-3 text-xs">
+            <span className="font-semibold">◉ {cafe.ai_reasoning.split(":")[0]}:</span>
+            {cafe.ai_reasoning.split(":").slice(1).join(":")}
+          </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between pt-3 border-t border-kafein-border/20">
-          <span className="text-sm font-semibold text-kafein-primary">
-            Maks {formatRupiah(cafe.price_max)}
-          </span>
-          <span className="text-[10px] text-kafein-text-muted">
-            {cafe.operating_hours.open} - {cafe.operating_hours.close}
-          </span>
+          {/* Footer: Amenity Icons */}
+          <div className="flex items-center gap-3 mt-4 text-kf-text-muted">
+            {cafe.wifi.available && <Wifi className="w-4 h-4" />}
+            {cafe.plugs.available && <Plug className="w-4 h-4" />}
+            <Volume2 className="w-4 h-4" />
+          </div>
         </div>
       </div>
     </Link>

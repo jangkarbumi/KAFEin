@@ -10,21 +10,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "KAFEin AI — Temukan Kafe Ideal untuk Belajar",
-    template: "%s | KAFEin AI",
+    default: "KAFEin — Temukan Spot Nugas Ideal",
+    template: "%s | KAFEin",
   },
   description:
     "Sistem rekomendasi kafe cerdas berbasis AI untuk mahasiswa. Temukan kafe dengan WiFi kencang, colokan banyak, dan suasana tenang di sekitar kampus Undip.",
-  keywords: [
-    "kafe",
-    "belajar",
-    "mahasiswa",
-    "undip",
-    "tembalang",
-    "rekomendasi",
-    "wifi",
-    "colokan",
-  ],
 };
 
 export default function RootLayout({
@@ -34,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className={`${inter.variable} antialiased`}>
-      <body className="min-h-screen flex flex-col bg-kafein-dark text-white font-sans">
+      <body className="min-h-screen flex flex-col font-sans">
         {children}
       </body>
     </html>
